@@ -4,7 +4,7 @@ print "Please enter your height (in cm): "
 user_height = Integer(gets.chomp)
 ideal_weight = user_height - 110
 if ideal_weight < 0
-	puts "Your weight is ideal already!"
+	puts "#{user_name}, your weight is ideal already!"
 else
-	puts "Your ideal weight is #{ideal_weight} kg."
+	puts "#{user_name}, your ideal weight is #{ideal_weight} kg."
 end
