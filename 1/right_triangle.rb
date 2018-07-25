@@ -5,9 +5,12 @@ b = gets.to_f
 print "Please enter the length of the third side of the triangle: "
 c = gets.to_f
 
+if a == b && b == c
+	exit
+end
+
 sides = [a, b, c].sort
 
-<<<<<<< HEAD
 catet1 = sides[0]
 catet2 = sides[1]
 hypo = sides[2]
