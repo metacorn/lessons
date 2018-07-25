@@ -13,7 +13,8 @@ hypo = sides[2]
 
 if hypo**2 == catet1**2 + catet2**2
 	puts "The triangle is right!"
-	if catet1 == catet2 || catet2 == hypo
-		puts "The triangle is isosceles!"
-	end
+end
+
+if (hypo**2 == catet1**2 + catet2**2) && (catet1 == catet2 || catet2 == hypo)
+	puts "The triangle is right and isosceles!"
 end

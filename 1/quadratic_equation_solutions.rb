@@ -11,7 +11,7 @@ if d < 0
 	puts "Discriminant equals #{d}."
 	puts "This equation has no solution!"
 elsif d == 0
-	x = -1 * b / (2 * a)
+	x = - b / (2 * a)
 	puts "Discriminant equals #{d}."
 	puts "The solution is #{x}."
 else
