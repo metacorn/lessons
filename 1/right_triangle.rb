@@ -6,6 +6,7 @@ print "Please enter the length of the third side of the triangle: "
 c = gets.to_f
 
 if a == b && b == c
+  puts "The triangle is equilateral!"
   exit
 end
 
@@ -16,9 +17,11 @@ catet2 = sides[1]
 hypo = sides[2]
 
 if hypo**2 == catet1**2 + catet2**2
-  puts "The triangle is right!"
+  rectangular = true
 end
 
-if (hypo**2 == catet1**2 + catet2**2) && (catet1 == catet2 || catet2 == hypo)
+if rectangular
+  puts "The triangle is right!"
+elsif rectangular && catet1 == catet2
   puts "The triangle is right and isosceles!"
 end
