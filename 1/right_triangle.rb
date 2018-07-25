@@ -16,12 +16,10 @@ catet1 = sides[0]
 catet2 = sides[1]
 hypo = sides[2]
 
-if hypo**2 == catet1**2 + catet2**2
-  rectangular = true
-end
+rectangular = hypo**2 == catet1**2 + catet2**2
 
-if rectangular
-  puts "The triangle is right!"
-elsif rectangular && catet1 == catet2
+if rectangular && catet1 == catet2
   puts "The triangle is right and isosceles!"
+elsif rectangular
+  puts "The triangle is right!"
 end
