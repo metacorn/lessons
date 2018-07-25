@@ -18,15 +18,4 @@ end
 
 if (hypo**2 == catet1**2 + catet2**2) && (catet1 == catet2 || catet2 == hypo)
 	puts "The triangle is right and isosceles!"
-=======
-cath1 = sides[0]
-cath2 = sides[1]
-hypo = sides[2]
-
-if hypo**2 == cath1**2 + cath2**2
-	puts "The triangle is right!"
-	if cath1 == cath2 || cath2 == hypo
-		puts "The triangle is isosceles!"
-	end
->>>>>>> f66f477d04d1cdc37f19e3d0ac4d0243d8bda3d2
 end
