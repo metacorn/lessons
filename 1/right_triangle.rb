@@ -6,7 +6,7 @@ print "Please enter the length of the third side of the triangle: "
 c = gets.to_f
 
 if a == b && b == c
-	exit
+  exit
 end
 
 sides = [a, b, c].sort
@@ -16,9 +16,9 @@ catet2 = sides[1]
 hypo = sides[2]
 
 if hypo**2 == catet1**2 + catet2**2
-	puts "The triangle is right!"
+  puts "The triangle is right!"
 end
 
 if (hypo**2 == catet1**2 + catet2**2) && (catet1 == catet2 || catet2 == hypo)
-	puts "The triangle is right and isosceles!"
+  puts "The triangle is right and isosceles!"
 end
