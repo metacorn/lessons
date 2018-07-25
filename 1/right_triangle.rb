@@ -5,15 +5,15 @@ b = gets.to_f
 print "Please enter the length of the third side of the triangle: "
 c = gets.to_f
 
-sides = [a, b, c].sort {|x, y| y <=> x }
+sides = [a, b, c].sort
 
-a = sides[0]
-b = sides[1]
-c = sides[2]
+catet1 = sides[0]
+catet2 = sides[1]
+hypo = sides[2]
 
-if a**2 == b**2 + c**2
+if hypo**2 == catet1**2 + catet2**2
 	puts "The triangle is right!"
-	if a == b || b == c
+	if catet1 == catet2 || catet2 == hypo
 		puts "The triangle is isosceles!"
 	end
 end
