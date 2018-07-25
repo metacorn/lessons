@@ -8,16 +8,16 @@ c = gets.to_f
 d = b**2 - 4 * a * c
 
 if d < 0
-	puts "Discriminant equals #{d}."
-	puts "This equation has no solution!"
+  puts "Discriminant equals #{d}."
+  puts "This equation has no solution!"
 elsif d == 0
-	x = -1 * b / (2 * a)
-	puts "Discriminant equals #{d}."
-	puts "The solution is #{x}."
+  x = -1 * b / (2 * a)
+  puts "Discriminant equals #{d}."
+  puts "The solution is #{x}."
 else
-	d_sqrt = Math.sqrt(d)
-	x1 = (- b + d_sqrt) / (2 * a)
-	x2 = (- b - d_sqrt) / (2 * a)
-	puts "Discriminant equals #{d}."
-	puts "The solutions are #{x1} and #{x2}."
+  d_sqrt = Math.sqrt(d)
+  x1 = (- b + d_sqrt) / (2 * a)
+  x2 = (- b - d_sqrt) / (2 * a)
+  puts "Discriminant equals #{d}."
+  puts "The solutions are #{x1} and #{x2}."
 end
