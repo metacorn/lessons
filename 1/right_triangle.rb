@@ -1,32 +1,19 @@
 print "Please enter the length of the first side of the triangle: "
-a = Integer(gets.chomp)
+a = gets.to_f
 print "Please enter the length of the second side of the triangle: "
-b = Integer(gets.chomp)
+b = gets.to_f
 print "Please enter the length of the third side of the triangle: "
-c = Integer(gets.chomp)
+c = gets.to_f
 
-if b < c # вычисляем большее из b и c, большее записываем в b, меньшее в c
-	temp = c
-	c = b
-	b = temp
-end
+sides = [a, b, c].sort {|x, y| y <=> x }
 
-if a < b # по тому же принципу выстраиваем "по росту" a и b
-	temp = b
-	b = a
-	a = temp
-end
+a = sides[0]
+b = sides[1]
+c = sides[2]
 
-if b < c # делаем то же ещё раз с b и c - теперь a, b и с идут по убыванию длин
-	temp = c
-	c = b
-	b = temp
-end
-
-if a * a == b * b + c * c
+if a**2 == b**2 + c**2
 	puts "The triangle is right!"
-end
-
-if a == b || b == c
-	puts "The triangle is isosceles!"
+	if a == b || b == c
+		puts "The triangle is isosceles!"
+	end
 end
