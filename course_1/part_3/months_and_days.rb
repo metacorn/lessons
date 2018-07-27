@@ -13,10 +13,4 @@ months = {
   december: 31
 }
 
-months_30 = months.select do |month, days|
-  days == 30
-end
-
-months_30.each_key do |month|
-  puts month.to_s
-end
+puts months.select { |month, days| days == 30 }

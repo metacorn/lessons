@@ -1,10 +1,9 @@
 letters = ("a".."z").to_a
-n = letters.size
 vowels = "aeiouy"
-vowels_hash = Hash.new
-for i in (0..letters.size - 1) do
-  if vowels.include? letters[i]
-    vowels_hash[letters[i].to_sym] = i
+vowels_hash = {}
+letters.each_with_index do |letter, number|
+  if vowels.include? letter
+    vowels_hash[letter.to_sym] = number
   end
 end
 

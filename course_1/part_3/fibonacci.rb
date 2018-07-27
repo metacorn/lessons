@@ -1,11 +1,9 @@
-a = 1
-array_f = []
-array_f.push a
+fibo_number = 1
+fibo_sequence = [1]
 
-until a > 100
-  array_f.push a
-  n = array_f.size
-  a = array_f.at(n - 1) + array_f.at(n - 2)
+until fibo_number > 100
+  fibo_sequence.push(fibo_number)
+  fibo_number = fibo_sequence[-1] + fibo_sequence[-2]
 end
 
-puts array_f
+puts fibo_sequence
