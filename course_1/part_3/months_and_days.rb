@@ -1,4 +1,4 @@
-months = {
+months_of_year = {
   january: 31,
   february: 28,
   march: 31,
@@ -13,4 +13,6 @@ months = {
   december: 31
 }
 
-puts months.select { |month, days| days == 30 }
+months_of_year.each do |month, days_in_month|
+  puts "#{month}: #{days_in_month}" if days_in_month == 30
+end

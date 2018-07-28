@@ -24,6 +24,6 @@ end
 
 date_number = day
 
-(0..(month - 2)).each { |month| date_number += days[month] }
+(0..(month - 2)).each { |months_before| date_number += days[months_before] }
 
 puts "The number of date is #{date_number}!"
