@@ -24,23 +24,25 @@ class Station
   end
 
   def trains_at_the_station_by_type(train_type)
-    return @trains_at_the_station.select { |one_of_the_trains| one_of_the_trains.train_type == train_type}
+    trains_at_the_station_by_type = @trains_at_the_station.select { |one_of_the_trains| one_of_the_trains.train_type == train_type}
+    puts "Amount of #{train_type} trains at the station: #{trains_at_the_station_by_type.size}."
+    return trains_at_the_station_by_type
   end
 
 end
 
 class Route
-  attr_reader :stations_in_route
+  attr_reader :stations_in_the_route
   def initialize(arrival_station, departure_station)
-    @stations_in_route = [arrival_station, departure_station]
+    @stations_in_the_route = [arrival_station, departure_station]
   end
 
   def add_intermediate_station(station)
-    @stations_in_route.insert(-2, station)
+    @stations_in_the_route.insert(-2, station)
   end
 
   def remove_intermediate_station(station)
-    @stations_in_route.delete(station)
+    @stations_in_the_route.delete(station)
   end
 end
 
@@ -81,14 +83,14 @@ class Train
 
   def get_the_route(route)
     @current_route = route
-    @current_station = @current_route.stations_in_route[0]
+    @current_station = @current_route.stations_in_the_route[0]
     @current_station.trains_at_the_station << self
   end
 
   def go_ahead
-    if @current_station != @current_route.stations_in_route[-1]
+    if @current_station != @current_route.stations_in_the_route[-1]
       @current_station.trains_at_the_station.delete(self)
-      @current_station = @current_route.stations_in_route[@current_route.stations_in_route.index(@current_station) + 1]
+      @current_station = @current_route.stations_in_the_route[@current_route.stations_in_the_route.index(@current_station) + 1]
       @current_station.trains_at_the_station << self
       puts "Train #{self.train_number} moved to station #{@current_station.station_name}."
     else
@@ -97,9 +99,9 @@ class Train
   end
 
   def go_back
-    if @current_station != @current_route.stations_in_route[0]
+    if @current_station != @current_route.stations_in_the_route[0]
       @current_station.trains_at_the_station.delete(self)
-      @current_station = @current_route.stations_in_route[@current_route.stations_in_route.index(@current_station) - 1]
+      @current_station = @current_route.stations_in_the_route[@current_route.stations_in_the_route.index(@current_station) - 1]
       @current_station.trains_at_the_station << self
       puts "Train #{self.train_number} moved to station #{@current_station.station_name}."
     else
@@ -118,8 +120,8 @@ class Train
   def next_station
     if @current_route.nil?
       puts "Train #{self.train_number} has no route."
-    elsif @current_station != @current_route.stations_in_route[-1]
-      return @current_route.stations_in_route[@current_route.stations_in_route.index(@current_station) + 1]
+    elsif @current_station != @current_route.stations_in_the_route[-1]
+      return @current_route.stations_in_the_route[@current_route.stations_in_the_route.index(@current_station) + 1]
     else
       puts "Train #{self.train_number} is at its departure station!"
     end
@@ -128,8 +130,8 @@ class Train
   def previous_station
     if @current_route.nil?
       puts "Train #{self.train_number} has no route."
-    elsif @current_station != @current_route.stations_in_route[0]
-      return @current_route.stations_in_route[@current_route.stations_in_route.index(@current_station) - 1]
+    elsif @current_station != @current_route.stations_in_the_route[0]
+      return @current_route.stations_in_the_route[@current_route.stations_in_the_route.index(@current_station) - 1]
     else
       puts "Train #{self.train_number} is at its arrival station!"
     end
