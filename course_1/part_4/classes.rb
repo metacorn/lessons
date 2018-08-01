@@ -36,7 +36,7 @@ class Route
   end
 
   def print_stations
-    @stations.each {|station| puts station.name}
+    stations.each {|station| puts station.name}
   end
 
   def add_station(station)
@@ -44,7 +44,7 @@ class Route
   end
 
   def remove_station(station)
-    if station == @stations[0] || station == @stations[-1]
+    if station == self.first_station || self.last_station
       puts "Arrival/departure station can not be removed!"
     elsif !@stations.include?(station)
       puts "This station is not in the route!"
@@ -52,14 +52,22 @@ class Route
       @stations.delete(station)
     end
   end
+
+  def first_station
+    stations[0]
+  end
+
+  def last_station
+    stations[-1]
+  end
 end
 
 class Train
-  attr_reader :number, :type, :length, :speed, :route, :station
-  def initialize(number, type, length)
+  attr_reader :number, :type, :wagons, :speed, :route, :station
+  def initialize(number, type, wagons)
     @number = number
     @type = type
-    @length = length
+    @wagons = wagons
     @speed = 0
   end
 
@@ -72,58 +80,62 @@ class Train
   end
 
   def add_wagon
-    if @speed == 0
-      @length += 1
+    if speed == 0
+      @wagons += 1
     else
-      puts "Train #{@number} is in the motion!"
+      puts "Train #{number} is in the motion!"
     end
   end
 
   def remove_wagon
-    if @speed == 0 && @length > 0 # с учётом того, что что поезд может состоять из одного локомотива без вагонов
-      @length -= 1
-    elsif @length == 0
+    if speed == 0 && wagons > 0 # с учётом того, что что поезд может состоять из одного локомотива без вагонов
+      @wagons -= 1
+    elsif wagons == 0
       puts "This train has no wagons already!"
     else
-      puts "Train #{@number} is in the motion!"
+      puts "Train #{number} is in the motion!"
     end
   end
 
   def get_the_route(route)
     @route = route
     @station = @route.stations[0]
-    @station.trains << self
+    @station.receive(self)
   end
 
   def index
-    @route.stations.index(@station)
+    route.stations.index(@station)
   end
 
   def next_station
-    @route.stations[self.index + 1] if @station != @route.stations[-1]
+    route.stations[self.index + 1] if @station != @route.stations[-1]
+  end
+
+  def current_station
+    station
   end
 
   def previous_station
-    @route.stations[self.index - 1] if @station != @route.stations[0]
+    route.stations[self.index - 1] if @station != @route.stations[0]
   end
 
   def forward
-    if self.next_station
-      @station.send(self)
-      @station = self.next_station
-      @station.receive(self)
+    if next_station
+      current_station.send(self)
+      next_station.receive(self)
+      @station = next_station
     else
-      puts "Train #{@number} is at its departure station!"
+      puts "Train #{number} is at its departure station!"
     end
   end
 
   def back
-    if self.previous_station
-      @station.send(self)
-      @station = self.previous_station
-      @station.receive(self)
+    if previous_station
+      current_station.send(self)
+      previous_station.receive(self)
+      @station = previous_station
     else
-      puts "Train #{@number} is at its arrival station!"
+      puts "Train #{number} is at its arrival station!"
     end
   end
 end
