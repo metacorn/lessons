@@ -99,7 +99,7 @@ class Train
 
   def get_the_route(route)
     @route = route
-    @station = @route.stations[0]
+    @station = route.stations[0]
     @station.receive(self)
   end
 
@@ -108,7 +108,7 @@ class Train
   end
 
   def next_station
-    route.stations[self.index + 1] if @station != @route.stations[-1]
+    route.stations[self.index + 1] if @station != route.last_station
   end
 
   def current_station
@@ -116,7 +116,7 @@ class Train
   end
 
   def previous_station
-    route.stations[self.index - 1] if @station != @route.stations[0]
+    route.stations[self.index - 1] if @station != route.first_station
   end
 
   def forward
