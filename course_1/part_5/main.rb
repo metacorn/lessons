@@ -20,10 +20,11 @@ def seed
   @t1.get_the_route(@r1)
 end
 
+$trains_list ||= []
+$wagons_list ||= []
+WTF_MSG = "I don't understand you!"
+
 def start
-  @trains_list ||= []
-  @wagons_list ||= []
-  @WTF_MSG = "I don't understand you!"
   start_menu
 end
 
@@ -47,7 +48,7 @@ def start_menu
   when 4
     break if true #можно ли как-то логичней и изящней выйти из case..when?
   else
-      puts @WTF_MSG
+      puts WTF_MSG
       start
     end
   end
@@ -68,7 +69,7 @@ def manage_stations
     when 3
       start_menu
     else
-      puts @WTF_MSG
+      puts WTF_MSG
     end
   end
 end
@@ -92,7 +93,7 @@ def manage_routes
     when 5
       start_menu
     else
-      puts @WTF_MSG
+      puts WTF_MSG
     end
   end
 end
@@ -125,11 +126,11 @@ def manage_trains
       else
         type = "Cargo"
       end
-      @trains_list << Train.new(number, type)
+      $trains_list << Train.new(number, type)
       puts "\n#{type} train with number #{number} was created!"
       manage_trains
     when 2
-      puts "Input the number"
+      puts "Input the number:"
       number = gets.chomp
       until ["P", "C"].include?(type_code)
         puts "Input the type (\"P\" for passenger, \"C\" for cargo):"
@@ -140,10 +141,15 @@ def manage_trains
       else
         type = "Cargo"
       end
-      @wagons_list << Wagon.new(number, type)
+      $wagons_list << Wagon.new(number, type)
       puts "\n#{type} wagon with number #{number} was created!"
       manage_trains
     when 3
+      puts "Input the number of the train:"
+      train_number = gets.chomp
+      puts "Input the number of the wagon:"
+      wagon_number = gets.chomp
+      
     when 4
     when 5
     when 6
@@ -151,7 +157,7 @@ def manage_trains
     when 8
       start_menu
     else
-      puts @WTF_MSG
+      puts WTF_MSG
     end
   end
 end
