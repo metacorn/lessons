@@ -7,10 +7,6 @@ require_relative 'wagon.rb'
 require_relative 'passenger_wagon.rb'
 require_relative 'passenger_wagon.rb'
 
-def test
-  puts "test"  
-end
-
 def seed
   @s1 = Station.new("Dynamo")
   @s2 = Station.new("Aeroport")
@@ -163,5 +159,14 @@ def manage_trains
     else
       puts WTF_MSG
     end
+  end
+end
+
+def train_by_number(number)
+  $trains_list.each do |train|
+    if train.number == number
+      return train
+    end
+    false
   end
 end
