@@ -7,6 +7,10 @@ require_relative 'wagon.rb'
 require_relative 'passenger_wagon.rb'
 require_relative 'passenger_wagon.rb'
 
+def test
+  puts "test"  
+end
+
 def seed
   @s1 = Station.new("Dynamo")
   @s2 = Station.new("Aeroport")
@@ -149,7 +153,7 @@ def manage_trains
       train_number = gets.chomp
       puts "Input the number of the wagon:"
       wagon_number = gets.chomp
-      
+
     when 4
     when 5
     when 6
