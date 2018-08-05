@@ -6,12 +6,7 @@ class Wagon
   end
 
   def free?
-    $trains_list.each do |train|
-      if train.wagons.include? self
-        return false
-        break
-      end
-      true
-    end
+    $trains_list.each { |train| return false if train.wagons.include?(self) }
+    true
   end
 end

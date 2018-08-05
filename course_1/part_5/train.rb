@@ -1,5 +1,5 @@
 class Train
-  attr_reader :number, :type, :speed, :route, :wagons
+  attr_reader :number, :type, :speed, :route, :wagons, :current_station
 
 #В секции public оставлены классы, к которым по ТЗ должен быть доступ из main.rb
 
@@ -11,37 +11,42 @@ class Train
   end
 
   def add_wagon(wagon)
-    @wagons << wagon if wagon.type == type && wagon.free?
+    if wagon.type != self.type
+      puts "\nWrong type of wagon (#{wagon.type.downcase}) for this train!"
+    elsif !wagon.free?
+      puts "\nThis wagon has been added to another train!"
+    else
+      @wagons << wagon
+      puts "\nThis wagon was added to the train number #{number}."
+    end
   end
 
   def remove_wagon(wagon)
     if !@wagons.include?(wagon)
-      puts "There is no such wagon in this train!"
+      puts "\nThis wagon is not in this train number #{number}!"
     else
       @wagons.delete(wagon)
+      puts "\nThis wagon was removed from the train number #{number}."
     end
   end
 
   def get_the_route(route)
     @route = route
-    @station = route.first_station
-    @station.receive(self)
+    @current_station = route.first_station
+    @current_station.receive(self)
+    puts "\nThe train number #{number} got the route number #{route.number}."
   end
 
   def current_index
-    route.stations.index(@station)
+    route.stations.index(current_station)
   end
 
   def next_station
-    route.stations[current_index + 1] if @station != route.last_station
-  end
-
-  def current_station
-    station
+    route.stations[current_index + 1] if current_station != route.last_station
   end
 
   def previous_station
-    route.stations[current_index - 1] if @station != route.first_station
+    route.stations[current_index - 1] if current_station != route.first_station
   end
 
   def forward
@@ -49,10 +54,11 @@ class Train
       speed_up
       current_station.send(self)
       next_station.receive(self)
-      @station = next_station
+      @current_station = next_station
       speed_down
+      puts "\nTrain #{number} moved to the station \'#{current_station.name}\'."
     else
-      puts "Train #{number} is at its departure station!"
+      puts "\nTrain #{number} is at its departure station!"
     end
   end
 
@@ -61,10 +67,11 @@ class Train
       speed_up
       current_station.send(self)
       previous_station.receive(self)
-      @station = previous_station
+      @current_station = previous_station
       speed_down
+      puts "\nTrain #{number} moved to the station \"#{current_station.name}\"."
     else
-      puts "Train #{number} is at its arrival station!"
+      puts "\nTrain #{number} is at its arrival station!"
     end
   end
 

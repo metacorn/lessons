@@ -1,7 +1,8 @@
 class Route
-  attr_reader :stations
-  def initialize(arrival_station, departure_station)
-    @stations = [arrival_station, departure_station]
+  attr_reader :stations, :number
+  def initialize(number, start, finish)
+    @stations = [start, finish]
+    @number = number
   end
 
   def print_stations
@@ -9,16 +10,22 @@ class Route
   end
 
   def add_station(station)
-    @stations.insert(-2, station)
+    if @stations.include?(station)
+      puts "\nThis station is in this route already!"
+    else
+      @stations.insert(-2, station)
+      puts "\nStation \"#{station.name}\" was added to the route number #{self.number}!"
+    end
   end
 
   def remove_station(station)
-    if station == first_station || last_station
-      puts "Arrival/departure station can not be removed!"
+    if station == first_station || station == last_station
+      puts "\nArrival/departure station can not be removed!"
     elsif !@stations.include?(station)
-      puts "This station is not in the route!"
+      puts "\nThis station is not in the route!"
     else
       @stations.delete(station)
+      puts "\nStation \"#{station.name}\" was removed from the route number #{self.number}!"
     end
   end
 
