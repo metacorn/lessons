@@ -3,9 +3,8 @@ class Train
 
 #В секции public оставлены классы, к которым по ТЗ должен быть доступ из main.rb
 
-  def initialize(number, type)
+  def initialize(number)
     @number = number
-    @type = type
     @wagons = []
     @speed = 0
   end

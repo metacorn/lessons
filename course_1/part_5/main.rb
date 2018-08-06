@@ -1,10 +1,10 @@
 require_relative 'station.rb'
 require_relative 'route.rb'
 require_relative 'train.rb'
-require_relative 'passenger_train.rb'
+require_relative 'cargo_train.rb'
 require_relative 'passenger_train.rb'
 require_relative 'wagon.rb'
-require_relative 'passenger_wagon.rb'
+require_relative 'cargo_wagon.rb'
 require_relative 'passenger_wagon.rb'
 
 $stations_list = []
@@ -168,13 +168,19 @@ def manage_trains
     when 1
       number = get_id_of_new("the number of train")
       type = get_type_of_new
-      $trains_list << Train.new(number, type)
+      case type
+      when "Cargo" then $trains_list << CargoTrain.new(number)
+      when "Passenger" then $trains_list << PassengerTrain.new(number)
+      end
       puts "\n#{type} train with number #{number} was created!"
       manage_trains
     when 2
       number = get_id_of_new("the number of wagon")
       type = get_type_of_new
-      $wagons_list << Wagon.new(number, type)
+      case type
+      when "Cargo" then $wagons_list << CargoWagon.new(number)
+      when "Passenger" then $wagons_list << PassengerWagon.new(number)
+      end
       puts "\n#{type} wagon with number #{number} was created!"
       manage_trains
     when 3

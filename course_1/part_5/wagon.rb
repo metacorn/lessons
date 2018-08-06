@@ -1,8 +1,7 @@
 class Wagon
-  attr_reader :number, :type
-  def initialize(number, type)
+  attr_reader :number
+  def initialize(number)
     @number = number
-    @type = type
   end
 
   def free?
