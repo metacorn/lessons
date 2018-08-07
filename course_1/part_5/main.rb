@@ -41,10 +41,6 @@ end
 =end
 
 def start
-  start_menu
-end
-
-def start_menu
   start_menu = 0
   until (1..4).include?(start_menu)
     puts "\nChoose the action (put the number):"
@@ -62,7 +58,7 @@ def start_menu
   when 3
     manage_trains
   when 4
-    break if true #можно ли как-то логичней и изящней выйти из case..when?
+    break
   else
       puts WTF_MSG
       start
