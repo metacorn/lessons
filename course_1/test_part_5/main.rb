@@ -51,6 +51,7 @@ private
     when 1
       name = @interface.get_station_name
       create_station(name)
+      @interface.station_creation_msg
       manage_stations
     when 2
       show_trains
