@@ -1,10 +1,10 @@
 class Wagon
-  attr_reader :number
+  attr_reader :number, :free
   def initialize(number)
     @number = number
+    @free = true
   end
-
-  def free?
-    $trains_list.none? { |train| train.wagons.include?(self)}
+  def change_state
+    @free = !free
   end
 end

@@ -9,10 +9,11 @@ class PassengerTrain < Train
   def add_wagon(wagon)
     if wagon.type != self.type
       puts "\nWrong type of wagon (#{wagon.type.downcase}) for this train!"
-    elsif !wagon.free?
+    elsif !wagon.free
       puts "\nThis wagon has been added to another train!"
     else
       @wagons << wagon
+      wagon.change_state
       puts "\nThis wagon was added to the train number #{number}."
     end
   end
@@ -22,6 +23,7 @@ class PassengerTrain < Train
       puts "\nThis wagon is not in this train number #{number}!"
     else
       @wagons.delete(wagon)
+      wagon.change_state
       puts "\nThis wagon was removed from the train number #{number}."
     end
   end

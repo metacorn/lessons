@@ -14,7 +14,7 @@ class Route
       puts "\nThis station is in this route already!"
     else
       @stations.insert(-2, station)
-      puts "\nStation \"#{station.name}\" was added to the route number #{self.number}!"
+      puts "\nStation #{station.name} was added to the route #{self.number}!"
     end
   end
 
@@ -25,7 +25,7 @@ class Route
       puts "\nThis station is not in the route!"
     else
       @stations.delete(station)
-      puts "\nStation \"#{station.name}\" was removed from the route number #{self.number}!"
+      puts "\nStation #{station.name} was removed from the route #{self.number}!"
     end
   end
 

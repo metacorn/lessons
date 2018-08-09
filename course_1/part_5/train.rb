@@ -13,7 +13,7 @@ class Train
     @route = route
     @current_station = route.first_station
     @current_station.receive(self)
-    puts "\nThe train number #{number} got the route number #{route.number}."
+    puts "\nTrain #{number} got the route #{route.number}."
   end
 
   def current_index
@@ -35,7 +35,7 @@ class Train
       next_station.receive(self)
       @current_station = next_station
       speed_down
-      puts "\nTrain #{number} moved to the station \'#{current_station.name}\'."
+      puts "\nTrain #{number} moved to the station #{current_station.name}."
     else
       puts "\nTrain #{number} is at its departure station!"
     end
@@ -48,7 +48,7 @@ class Train
       previous_station.receive(self)
       @current_station = previous_station
       speed_down
-      puts "\nTrain #{number} moved to the station \"#{current_station.name}\"."
+      puts "\nTrain #{number} moved to the station #{current_station.name}."
     else
       puts "\nTrain #{number} is at its arrival station!"
     end
