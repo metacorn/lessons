@@ -23,19 +23,11 @@ class Main
 private
 
   def start_menu
-    menu_item = 0
-    until (1..4).include?(menu_item)
-      puts "\nChoose the action (put the number):"
-      puts "1. Manage stations."
-      puts "2. Manage routes."
-      puts "3. Manage trains."
-      puts "4. Exit program."
-      menu_item = gets.to_i
-    end
-
+    menu_item = @interface.show_start_menu
+    puts menu_item
     case menu_item
-    when 1 then manage_stations
-    when 2 then manage_routes
+    when 1 then stations_menu
+    when 2 then routes_menu
     when 3 then manage_trains
     when 4 then exit
     end
@@ -43,16 +35,8 @@ private
 
 # методы меню start_menu
 
-  def manage_stations
-    menu_item = 0
-    until (1..3).include?(menu_item)
-      puts "\nChoose the action (put the number):"
-      puts "1. Create a station."
-      puts "2. Show trains at the station."
-      puts "3. Back to start menu."
-      menu_item = gets.to_i
-    end
-
+  def stations_menu
+    menu_item = @interface.show_stations_menu
     case menu_item
     when 1 then create_station_menu
     when 2 then show_trains_menu
@@ -60,18 +44,8 @@ private
     end
   end
 
-  def manage_routes
-    menu_item = 0
-    until (1..5).include?(menu_item)
-      puts "\nChoose the action (put the number):"
-      puts "1. Create a route."
-      puts "2. Add a station to a route."
-      puts "3. Remove a station from a route."
-      puts "4. Show stations in a route."
-      puts "5. Back to the start menu."
-      menu_item = gets.to_i
-    end
-
+  def routes_menu
+    menu_item = @interface.show_routes_menu
     case menu_item
     when 1 then create_route_menu
     when 2 then add_station_menu
@@ -82,20 +56,7 @@ private
   end
 
   def manage_trains
-    menu_item = 0
-    until (1..8).include?(menu_item)
-      puts "\nChoose the action (put the number):"
-      puts "1. Create a train."
-      puts "2. Create a wagon."
-      puts "3. Add wagons to a train."
-      puts "4. Remove wagons from a train."
-      puts "5. Set a route for a train."
-      puts "6. Move a train to the next station."
-      puts "7. Move a train to the previous station."
-      puts "8. Back to the start menu."
-      menu_item = gets.to_i
-    end
-
+    menu_item = @interface.show_trains_menu
     case menu_item
     when 1 then create_train_menu
     when 2 then create_wagon_menu
@@ -108,185 +69,81 @@ private
     end
   end
 
-#  методы меню manage_stations
+#  методы меню stations_menu
 
   def create_station_menu
-    name = @interface.ask_station_name
-    loop do
-      if station_exist?(name)
-        name = @interface.ask_station_name_if_exist
-      else
-        break
-      end
-    end
+    name = get_new_station_name
     @stations_list << Station.new(name)
     @interface.station_created_msg(name)
-    manage_stations
+    stations_menu
   end
 
   def show_trains_menu
-    name = @interface.ask_station_name
-    loop do
-      if !station_exist?(name)
-        name = @interface.ask_station_name_if_not_exist
-      else
-        break
-      end
-    end
+    name = get_existing_station_name
     station = station_by_name(name)
     @interface.show_trains(station)
-    manage_stations
+    stations_menu
   end
 
-#  методы меню manage_routes
+#  методы меню routes_menu
 
   def create_route_menu
-    first_station_name = @interface.ask_first_station_name
-    loop do
-      if !station_exist?(first_station_name)
-        first_station_name = @interface.ask_station_name_if_not_exist
-      else
-        break
-      end
-    end
-    last_station_name = @interface.ask_last_station_name
-    loop do
-      if !station_exist?(last_station_name)
-        last_station_name = @interface.ask_station_name_if_not_exist
-      else
-        break
-      end
-    end
-    number = @interface.ask_route_number
-    loop do
-      if route_exist?(number)
-        number = @interface.ask_route_number_if_exist
-      else
-        break
-      end
-    end
+    first_station_name = get_first_station_name
+    last_station_name = get_last_station_name
+    number = get_new_route_number
     first_station = station_by_name(first_station_name)
     last_station = station_by_name(last_station_name)
     @routes_list << Route.new(number, first_station, last_station)
     @interface.route_created_msg(number)
-    manage_routes
+    routes_menu
   end
 
   def add_station_menu
-    number = @interface.ask_route_number
-    loop do
-      if !route_exist?(number)
-        number = @interface.ask_route_number_if_not_exist
-      else
-        break
-      end
-    end
-    name = @interface.ask_station_name
-    loop do
-      if !station_exist?(name)
-        name = @interface.ask_station_name_if_not_exist
-      else
-        break
-      end
-    end
+    number = get_existing_route_number
+    name = get_existing_station_name
     route = route_by_number(number)
     station = station_by_name(name)
     route.add_station(station)
-    manage_routes
+    routes_menu
   end
 
   def remove_station_menu
-    number = @interface.ask_route_number
-    loop do
-      if !route_exist?(number)
-        number = @interface.ask_route_number_if_not_exist
-      else
-        break
-      end
-    end
-    name = @interface.ask_station_name
-    loop do
-      if !station_exist?(name)
-        name = @interface.ask_station_name_if_not_exist
-      else
-        break
-      end
-    end
+    number = get_existing_route_number
+    name = get_existing_station_name
     route = route_by_number(number)
     station = station_by_name(name)
     route.remove_station(station)
-    manage_routes
+    routes_menu
   end
 
   def show_stations_menu
-    number = @interface.ask_route_number
-    loop do
-      if !route_exist?(number)
-        number = @interface.ask_route_number_if_not_exist
-      else
-        break
-      end
-    end
+    number = get_existing_route_number
     route = route_by_number(number)
     @interface.show_stations(route)
-    manage_routes
+    routes_menu
   end
 
 #  методы меню manage_trains
 
   def create_train_menu
-    number = @interface.ask_train_number
-    loop do
-      if train_exist?(number)
-        number = @interface.ask_train_number_if_exist
-      else
-        break
-      end
-    end
+    number = get_new_train_number
     type = @interface.ask_type
-    case type
-    when "Cargo" then @trains_list << CargoTrain.new(number)
-    when "Passenger" then @trains_list << PassengerTrain.new(number)
-    end
+    create_train_of_type(number, type)
     @interface.train_created_msg(type, number)
     manage_trains
   end
 
   def create_wagon_menu
-    number = @interface.ask_wagon_number
-    loop do
-      if wagon_exist?(number)
-        number = @interface.ask_wagon_number_if_exist
-      else
-        break
-      end
-    end
+    number = get_new_wagon_number
     type = @interface.ask_type
-    case type
-    when "Cargo" then @wagons_list << CargoWagon.new(number)
-    when "Passenger" then @wagons_list << PassengerWagon.new(number)
-    end
+    create_wagon_of_type(number, type)
     @interface.wagon_created_msg(type, number)
     manage_trains
   end
 
   def add_wagon_menu
-    train_number = @interface.ask_train_number
-    loop do
-      if !train_exist?(train_number)
-        train_number = @interface.ask_train_number_if_not_exist
-      else
-        break
-      end
-    end
-    wagon_number = @interface.ask_wagon_number
-    loop do
-      if !wagon_exist?(wagon_number)
-        wagon_number = @interface.ask_wagon_number_if_not_exist
-      else
-        break
-      end
-    end
+    train_number = get_existing_train_number
+    wagon_number = get_existing_wagon_number
     train = train_by_number(train_number)
     wagon = wagon_by_number(wagon_number)
     train.add_wagon(wagon)
@@ -294,22 +151,8 @@ private
   end
 
   def remove_wagon_menu
-    train_number = @interface.ask_train_number
-    loop do
-      if !train_exist?(train_number)
-        train_number = @interface.ask_train_number_if_not_exist
-      else
-        break
-      end
-    end
-    wagon_number = @interface.ask_wagon_number
-    loop do
-      if !wagon_exist?(wagon_number)
-        wagon_number = @interface.ask_wagon_number_if_not_exist
-      else
-        break
-      end
-    end
+    train_number = get_existing_train_number
+    wagon_number = get_existing_wagon_number
     train = train_by_number(train_number)
     wagon = wagon_by_number(wagon_number)
     train.remove_wagon(wagon)
@@ -317,22 +160,8 @@ private
   end
 
   def set_route_menu
-    train_number = @interface.ask_train_number
-    loop do
-      if !train_exist?(train_number)
-        train_number = @interface.ask_train_number_if_not_exist
-      else
-        break
-      end
-    end
-    route_number = @interface.ask_route_number
-    loop do
-      if !route_exist?(route_number)
-        route_number = @interface.ask_route_number_if_not_exist
-      else
-        break
-      end
-    end
+    train_number = get_existing_train_number
+    route_number = get_existing_route_number
     train = train_by_number(train_number)
     route = route_by_number(route_number)
     train.get_the_route(route)
@@ -340,28 +169,14 @@ private
   end
 
   def move_forward_menu
-    train_number = @interface.ask_train_number
-    loop do
-      if !train_exist?(train_number)
-        train_number = @interface.ask_train_number_if_not_exist
-      else
-        break
-      end
-    end
+    train_number = get_existing_train_number
     train = train_by_number(train_number)
     train.forward
     manage_trains
   end
 
   def move_back_menu
-    train_number = @interface.ask_train_number
-    loop do
-      if !train_exist?(train_number)
-        train_number = @interface.ask_train_number_if_not_exist
-      else
-        break
-      end
-    end
+    train_number = get_existing_train_number
     train = train_by_number(train_number)
     train.back
     manage_trains
@@ -369,19 +184,19 @@ private
 
 # дополнительные методы
   def route_exist?(number)
-    !@routes_list.none? { |route| route.number == number}
+    @routes_list.any? { |route| route.number == number}
   end
 
   def station_exist?(name)
-    !@stations_list.none? { |station| station.name == name}
+    @stations_list.any? { |station| station.name == name}
   end
 
   def train_exist?(number)
-    !@trains_list.none? { |train| train.number == number}
+    @trains_list.any? { |train| train.number == number}
   end
 
   def wagon_exist?(number)
-    !@wagons_list.none? { |wagon| wagon.number == number}
+    @wagons_list.any? { |wagon| wagon.number == number}
   end
 
   def route_by_number(number)
@@ -400,4 +215,97 @@ private
     @wagons_list.each { |wagon| return wagon if wagon.number == number }
   end
 
+  def get_new_station_name
+    name = @interface.ask_station_name
+    while station_exist?(name)
+      name = @interface.ask_station_name_if_exist
+    end
+    name
+  end
+
+  def get_existing_station_name
+    name = @interface.ask_station_name
+    until station_exist?(name)
+      name = @interface.ask_station_name_if_not_exist
+    end
+    name
+  end
+
+  def get_first_station_name
+    name = @interface.ask_first_station_name
+    until station_exist?(name)
+      name = @interface.ask_station_name_if_not_exist
+    end
+    name
+  end
+
+  def get_last_station_name
+    name = @interface.ask_last_station_name
+    until station_exist?(name)
+      name = @interface.ask_station_name_if_not_exist
+    end
+    name
+  end
+
+  def get_new_route_number
+    number = @interface.ask_route_number
+    while route_exist?(number)
+      number = @interface.ask_route_number_if_exist
+    end
+    number
+  end
+
+  def get_existing_route_number
+    number = @interface.ask_route_number
+    until route_exist?(number)
+      number = @interface.ask_route_number_if_not_exist
+    end
+    number
+  end
+
+  def get_new_train_number
+    number = @interface.ask_train_number
+    while train_exist?(number)
+      number = @interface.ask_train_number_if_exist
+    end
+    number
+  end
+
+  def get_new_wagon_number
+    number = @interface.ask_wagon_number
+    while wagon_exist?(number)
+      number = @interface.ask_wagon_number_if_exist
+    end
+    number
+  end
+
+  def create_train_of_type(number, type)
+    case type
+    when "Cargo" then @trains_list << CargoTrain.new(number)
+    when "Passenger" then @trains_list << PassengerTrain.new(number)
+    end
+  end
+
+  def create_wagon_of_type(number, type)
+    case type
+    when "Cargo" then @wagons_list << CargoWagon.new(number)
+    when "Passenger" then @wagons_list << PassengerWagon.new(number)
+    end
+  end
+
+  def get_existing_train_number
+    number = @interface.ask_train_number
+    until train_exist?(number)
+      number = @interface.ask_train_number_if_not_exist
+    end
+    number
+  end
+
+  def get_existing_wagon_number
+    number = @interface.ask_wagon_number
+    until wagon_exist?(number)
+      number = @interface.ask_wagon_number_if_not_exist
+    end
+    number
+  end
 end

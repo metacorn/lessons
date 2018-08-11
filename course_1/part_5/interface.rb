@@ -1,4 +1,60 @@
 class Interface
+  def show_start_menu
+    menu_item = 0
+    until (1..4).include?(menu_item)
+      puts "\nChoose the action (put the number):"
+      puts "1. Manage stations."
+      puts "2. Manage routes."
+      puts "3. Manage trains."
+      puts "4. Exit program."
+      menu_item = gets.to_i
+    end
+    menu_item
+  end
+
+  def show_stations_menu
+    menu_item = 0
+    until (1..3).include?(menu_item)
+      puts "\nChoose the action (put the number):"
+      puts "1. Create a station."
+      puts "2. Show trains at the station."
+      puts "3. Back to start menu."
+      menu_item = gets.to_i
+    end
+    menu_item
+  end
+
+  def show_routes_menu
+    menu_item = 0
+    until (1..5).include?(menu_item)
+      puts "\nChoose the action (put the number):"
+      puts "1. Create a route."
+      puts "2. Add a station to a route."
+      puts "3. Remove a station from a route."
+      puts "4. Show stations in a route."
+      puts "5. Back to the start menu."
+      menu_item = gets.to_i
+    end
+    menu_item
+  end
+
+  def show_trains_menu
+    menu_item = 0
+    until (1..8).include?(menu_item)
+      puts "\nChoose the action (put the number):"
+      puts "1. Create a train."
+      puts "2. Create a wagon."
+      puts "3. Add wagons to a train."
+      puts "4. Remove wagons from a train."
+      puts "5. Set a route for a train."
+      puts "6. Move a train to the next station."
+      puts "7. Move a train to the previous station."
+      puts "8. Back to the start menu."
+      menu_item = gets.to_i
+    end
+    menu_item
+  end
+
   def ask_station_name
     puts "\nInput the name of station:"
     gets.chomp
