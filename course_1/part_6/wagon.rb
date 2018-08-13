@@ -1,7 +1,9 @@
-class Wagon
-  attr_reader :number, :free
+require_relative 'manufacturer.rb'
 
+class Wagon
   include Manufacturer
+
+  attr_reader :number, :free
 
   def initialize(number)
     @number = number

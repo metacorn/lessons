@@ -8,7 +8,6 @@ class Main
   require_relative 'wagon.rb'
   require_relative 'cargo_wagon.rb'
   require_relative 'passenger_wagon.rb'
-#  require_relative 'manufacturer.rb'
 
   WTF_MSG = "I don't understand you!"
 
@@ -25,7 +24,6 @@ private
 
   def start_menu
     menu_item = @interface.show_start_menu
-    puts menu_item
     case menu_item
     when 1 then stations_menu
     when 2 then routes_menu
@@ -41,7 +39,9 @@ private
     case menu_item
     when 1 then create_station_menu
     when 2 then show_trains_menu
-    when 3 then start_menu
+    when 3 then show_all_stations_menu
+    when 4 then show_station_instances_menu
+    when 5 then start_menu
     end
   end
 
@@ -51,8 +51,9 @@ private
     when 1 then create_route_menu
     when 2 then add_station_menu
     when 3 then remove_station_menu
-    when 4 then show_stations_menu
-    when 5 then start_menu
+    when 4 then show_route_stations_menu
+    when 5 then show_route_instances_menu
+    when 6 then start_menu
     end
   end
 
@@ -70,7 +71,8 @@ private
     when 9 then get_train_manufacturer
     when 10 then set_wagon_manufacturer
     when 11 then get_wagon_manufacturer
-    when 12 then start_menu
+    when 12 then show_train_instances_menu
+    when 13 then start_menu
     end
   end
 
@@ -87,6 +89,17 @@ private
     name = get_existing_station_name
     station = station_by_name(name)
     @interface.show_trains(station)
+    stations_menu
+  end
+
+  def show_all_stations_menu
+    @interface.show_all_stations_header
+    Station.all.each_with_index { |station, index| puts "#{index + 1}. #{station.name}." }
+    stations_menu
+  end
+
+  def show_station_instances_menu
+    @interface.show_station_instances
     stations_menu
   end
 
@@ -121,10 +134,15 @@ private
     routes_menu
   end
 
-  def show_stations_menu
+  def show_route_stations_menu
     number = get_existing_route_number
     route = route_by_number(number)
     @interface.show_stations(route)
+    routes_menu
+  end
+
+  def show_route_instances_menu
+    @interface.show_route_instances
     routes_menu
   end
 
@@ -218,6 +236,11 @@ private
     wagon = wagon_by_number(wagon_number)
     manufacturer_name = wagon.manufacturer
     @interface.show_manufacturer(wagon, manufacturer_name)
+    trains_menu
+  end
+
+  def show_train_instances_menu
+    @interface.show_train_instances
     trains_menu
   end
 

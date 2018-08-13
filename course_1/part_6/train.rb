@@ -1,6 +1,20 @@
 require_relative 'manufacturer.rb'
+require_relative 'instance_counter.rb'
 
 class Train
+  include InstanceCounter
+
+  class << self
+    attr_accessor :all
+
+    def find(train_number)
+      wrapped_train = self.all.select { |train| train.number == train_number}
+      wrapped_train[0]
+    end
+  end
+
+  @all = []
+
   attr_reader :number, :type, :speed, :route, :wagons, :current_station
 
 #В секции public оставлены классы, к которым по ТЗ должен быть доступ из main.rb
@@ -10,6 +24,8 @@ class Train
     @number = number
     @wagons = []
     @speed = 0
+    Train.all << self
+    register_instances
   end
 
   def get_the_route(route)

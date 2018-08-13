@@ -14,11 +14,13 @@ class Interface
 
   def show_stations_menu
     menu_item = 0
-    until (1..3).include?(menu_item)
+    until (1..5).include?(menu_item)
       puts "\nChoose the action (put the number):"
       puts "1. Create a station."
       puts "2. Show trains at the station."
-      puts "3. Back to start menu."
+      puts "3. Show all existing stations."
+      puts "4. Show number of stations."
+      puts "5. Back to start menu."
       menu_item = gets.to_i
     end
     menu_item
@@ -26,13 +28,14 @@ class Interface
 
   def show_routes_menu
     menu_item = 0
-    until (1..5).include?(menu_item)
+    until (1..6).include?(menu_item)
       puts "\nChoose the action (put the number):"
       puts "1. Create a route."
       puts "2. Add a station to a route."
       puts "3. Remove a station from a route."
       puts "4. Show stations in a route."
-      puts "5. Back to the start menu."
+      puts "5. Show number of routes."
+      puts "6. Back to the start menu."
       menu_item = gets.to_i
     end
     menu_item
@@ -40,7 +43,7 @@ class Interface
 
   def show_trains_menu
     menu_item = 0
-    until (1..12).include?(menu_item)
+    until (1..13).include?(menu_item)
       puts "\nChoose the action (put the number):"
       puts "1. Create a train."
       puts "2. Create a wagon."
@@ -53,7 +56,8 @@ class Interface
       puts "9. Show the manufacturer of the train."
       puts "10. Set the manufacturer to the wagon."
       puts "11. Show the manufacturer of the wagon."
-      puts "12. Back to the start menu."
+      puts "12. Show number of trains."
+      puts "13. Back to the start menu."
       menu_item = gets.to_i
     end
     menu_item
@@ -76,6 +80,15 @@ class Interface
 
   def station_created_msg(name)
     puts "\nStation #{name} was created!"
+  end
+
+  def show_all_stations_header
+    puts "\nExisting stations:"
+  end
+
+  def show_station_instances
+    Station.instances ||= 0
+    puts "\nNumber of stations: #{Station.instances}."
   end
 
   def show_trains(station)
@@ -119,6 +132,11 @@ class Interface
   def show_stations(route)
     puts "\nStations in the route #{route.number}:"
     route.stations.each {|station| puts station.name}
+  end
+
+  def show_route_instances
+    Route.instances ||= 0
+    puts "\nNumber of routes: #{Route.instances}."
   end
 
   def ask_train_number
@@ -183,6 +201,11 @@ class Interface
 
   def show_manufacturer(instance, manufacturer_name)
     puts "\nManufacturer of this #{instance.class.superclass.to_s.downcase} is #{manufacturer_name}."
+  end
+
+  def show_train_instances
+    Train.instances ||= 0
+    puts "\nNumber of trains: #{Train.instances}."
   end
 
 end
