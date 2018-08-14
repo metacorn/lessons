@@ -8,12 +8,11 @@ class Train
     attr_accessor :all
 
     def find(train_number)
-      wrapped_train = self.all.select { |train| train.number == train_number}
-      wrapped_train[0]
+      all[train_number]
     end
   end
 
-  @all = []
+  @all = {}
 
   attr_reader :number, :type, :speed, :route, :wagons, :current_station
 
@@ -24,7 +23,7 @@ class Train
     @number = number
     @wagons = []
     @speed = 0
-    Train.all << self
+    Train.all[number] = self
     register_instances
   end
 

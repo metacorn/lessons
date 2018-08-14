@@ -204,8 +204,10 @@ class Interface
   end
 
   def show_train_instances
-    Train.instances ||= 0
-    puts "\nNumber of trains: #{Train.instances}."
+    CargoTrain.instances ||= 0
+    PassengerTrain.instances ||= 0
+    total_trains = CargoTrain.instances + PassengerTrain.instances
+    puts "\nNumber of trains: #{total_trains}."
   end
 
 end
