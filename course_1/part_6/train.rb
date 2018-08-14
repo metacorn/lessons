@@ -5,10 +5,17 @@ class Train
   include InstanceCounter
 
   class << self
-    attr_accessor :all
+    attr_reader :all
 
     def find(train_number)
       all[train_number]
+    end
+
+    protected
+    attr_writer :all
+
+    def add_train(train)
+      self.all[train.number] = train
     end
   end
 
@@ -23,7 +30,7 @@ class Train
     @number = number
     @wagons = []
     @speed = 0
-    Train.all[number] = self
+    Train.send(:add_train, self)
     register_instances
   end
 
