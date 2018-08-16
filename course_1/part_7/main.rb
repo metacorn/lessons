@@ -8,6 +8,7 @@ class Main
   require_relative 'wagon.rb'
   require_relative 'cargo_wagon.rb'
   require_relative 'passenger_wagon.rb'
+  require_relative 'validator.rb'
 
   WTF_MSG = "I don't understand you!"
 
@@ -17,6 +18,7 @@ class Main
     @trains_list ||= []
     @wagons_list ||= []
     @interface = Interface.new
+    $validator = Validator.new
     start_menu
   end
 
@@ -28,7 +30,7 @@ private
     when 1 then stations_menu
     when 2 then routes_menu
     when 3 then trains_menu
-    when 4 then exit
+    when 4 then break while true
     end
   end
 
@@ -152,6 +154,10 @@ private
     number = get_new_train_number
     type = @interface.ask_type
     create_train_of_type(number, type)
+  rescue RuntimeError
+    @interface.invalid_train_number_msg
+    retry
+  ensure
     @interface.train_created_msg(type, number)
     trains_menu
   end

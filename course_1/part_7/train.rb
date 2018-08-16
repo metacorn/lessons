@@ -1,8 +1,10 @@
 require_relative 'manufacturer.rb'
 require_relative 'instance_counter.rb'
+require_relative 'validity.rb'
 
 class Train
   include InstanceCounter
+  include Validity
 
   class << self
     attr_reader :all
@@ -21,7 +23,7 @@ class Train
 
   @all = {}
 
-  attr_reader :number, :type, :speed, :route, :wagons, :current_station
+  attr_reader :number, :speed, :route, :wagons, :current_station
 
 #В секции public оставлены классы, к которым по ТЗ должен быть доступ из main.rb
   include Manufacturer
@@ -30,6 +32,7 @@ class Train
     @number = number
     @wagons = []
     @speed = 0
+    $validator.check_out!(self)
     Train.send(:add_train, self)
     register_instances
   end

@@ -1,12 +1,15 @@
 require_relative 'instance_counter.rb'
+require_relative 'validity.rb'
 
 class Route
   include InstanceCounter
+  include Validity
 
   attr_reader :stations, :number
   def initialize(number, start, finish)
     @stations = [start, finish]
     @number = number
+    $validator.check_out!(self)
     register_instances
   end
 

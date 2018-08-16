@@ -210,4 +210,7 @@ class Interface
     puts "\nNumber of trains: #{total_trains}."
   end
 
+  def invalid_train_number_msg
+    puts "\nTrain number validation failed! Input valid train number!"
+  end
 end

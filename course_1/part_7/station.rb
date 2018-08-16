@@ -1,7 +1,9 @@
 require_relative 'instance_counter.rb'
+require_relative 'validity.rb'
 
 class Station
   include InstanceCounter
+  include Validity
 
   class << self
     attr_reader :all
@@ -14,6 +16,7 @@ class Station
   def initialize(name)
     @name = name
     @trains = []
+    $validator.check_out!(self)
     Station.all << self
     register_instances
   end
