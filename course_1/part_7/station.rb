@@ -16,7 +16,7 @@ class Station
   def initialize(name)
     @name = name
     @trains = []
-    $validator.check_out!(self)
+    validate!
     Station.all << self
     register_instances
   end
@@ -41,6 +41,15 @@ class Station
     trains_by_type = @trains.select { |train| train.type == type}
     puts "\nAmount of #{type} trains at the station: #{trains_by_type.size}."
     trains_by_type
+  end
+
+  private
+
+  STATION_NAME_PATTERN = /^[a-zA-Zа-яА-Я0-9 -]+$/ # буквы, цифры, пробелы, дефисы
+
+  def validate!
+    raise "Station name can't be nil!" if name.nil?
+    raise "Station name should contain letters, numbers, hyphens or spaces!" if name !~ STATION_NAME_PATTERN
   end
 
 end

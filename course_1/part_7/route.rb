@@ -9,7 +9,7 @@ class Route
   def initialize(number, start, finish)
     @stations = [start, finish]
     @number = number
-    $validator.check_out!(self)
+    validate!
     register_instances
   end
 
@@ -43,5 +43,17 @@ class Route
 
   def last_station
     stations[-1]
+  end
+
+  private
+
+  ROUTE_NUMBER_PATTERN = /^[a-zA-Zа-яА-Я0-9-]+$/ # буквы, цифры, дефисы
+
+  def validate!
+    raise "Wrong class of object passed as the first station: #{first_station.class.to_s}. It should be \"Station\"." if !first_station.instance_of?(Station)
+    raise "Wrong class of object passed as the last station: #{last_station.class.to_s}. It should be \"Station\"." if !last_station.instance_of?(Station)
+    raise "Route should have different stations as its first and its last ones!" if first_station == last_station
+    raise "Route number can't be nil!" if number.nil?
+    raise "Route number should contain letters, numbers or hyphens!" if number !~ ROUTE_NUMBER_PATTERN
   end
 end

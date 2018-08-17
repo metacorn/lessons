@@ -8,7 +8,6 @@ class Main
   require_relative 'wagon.rb'
   require_relative 'cargo_wagon.rb'
   require_relative 'passenger_wagon.rb'
-  require_relative 'validator.rb'
 
   WTF_MSG = "I don't understand you!"
 
@@ -18,7 +17,6 @@ class Main
     @trains_list ||= []
     @wagons_list ||= []
     @interface = Interface.new
-    $validator = Validator.new
     start_menu
   end
 
@@ -30,7 +28,7 @@ private
     when 1 then stations_menu
     when 2 then routes_menu
     when 3 then trains_menu
-    when 4 then break while true
+    when 4 then break while true # мне бы хотелось, чтобы выход в irb происходил просто по break, но при запуске программы вылетает исключение: "/home/gluck/Git/lessons/course_1/part_7/main.rb: /home/gluck/Git/lessons/course_1/part_7/main.rb:33: Invalid break (SyntaxError)"
     end
   end
 
@@ -378,6 +376,6 @@ private
   end
 
   def get_manufacturer_name
-    name = @interface.ask_manufacturer_name
+    @interface.ask_manufacturer_name
   end
 end

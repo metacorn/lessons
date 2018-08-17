@@ -3,6 +3,7 @@ require_relative 'instance_counter.rb'
 require_relative 'validity.rb'
 
 class Train
+  include Manufacturer
   include InstanceCounter
   include Validity
 
@@ -25,14 +26,13 @@ class Train
 
   attr_reader :number, :speed, :route, :wagons, :current_station
 
-#В секции public оставлены классы, к которым по ТЗ должен быть доступ из main.rb
-  include Manufacturer
+  # В секции public оставлены классы, к которым по ТЗ должен быть доступ из main.rb
 
   def initialize(number)
     @number = number
     @wagons = []
     @speed = 0
-    $validator.check_out!(self)
+    validate!
     Train.send(:add_train, self)
     register_instances
   end
@@ -58,11 +58,9 @@ class Train
 
   def forward
     if next_station
-      speed_up
       current_station.send(self)
       next_station.receive(self)
       @current_station = next_station
-      speed_down
       puts "\nTrain #{number} moved to the station #{current_station.name}."
     else
       puts "\nTrain #{number} is at its departure station!"
@@ -71,11 +69,9 @@ class Train
 
   def back
     if previous_station
-      speed_up
       current_station.send(self)
       previous_station.receive(self)
       @current_station = previous_station
-      speed_down
       puts "\nTrain #{number} moved to the station #{current_station.name}."
     else
       puts "\nTrain #{number} is at its arrival station!"
@@ -84,16 +80,10 @@ class Train
 
   protected
 
-=begin
-Методы speed_up и speed_down вынесены в protected, т.к. в ТЗ не прописано, что пользователь должен обладать этим функционалом.
-Чтобы наличие методов speed_up и speed_down как таковых было оправданно, добавил их в методы forward и back
-=end
+  TRAIN_NUMBER_PATTERN = /^[a-zA-Zа-яА-Я0-9]{3}-*[a-zA-Zа-яА-Я0-9]{2}$/ # согласно ТЗ
 
-  def speed_up
-    @speed += 10
-  end
-
-  def speed_down
-    @speed -= 10 if @speed >= 10
+  def validate!
+    raise "Train number can't be nil!" if number.nil?
+    raise "Train number should conform to the established mask!" if number !~ TRAIN_NUMBER_PATTERN
   end
 end
