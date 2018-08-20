@@ -85,6 +85,7 @@ private
     when 3 then get_wagon_manufacturer_menu
     when 4 then take_seat_menu
     when 5 then take_volume_menu
+    when 6 then start_menu
     end
   end
 
@@ -277,8 +278,8 @@ private
       wagon_number = get_existing_wagon_number
       wagon = wagon_by_number(wagon_number)
     end
-    if wagon.free_seats > 0
-      wagon.take_seat
+    if wagon.free_space > 0
+      wagon.take_space
     else
       @interface.passenger_wagon_filled_msg
     end
@@ -294,8 +295,8 @@ private
       wagon = wagon_by_number(wagon_number)
     end
     volume = get_volume
-    if volume < wagon.free_volume
-      wagon.take_volume(volume)
+    if volume < wagon.free_space
+      wagon.take_space(volume)
     else
       @interface.cargo_wagon_filled_msg
     end
@@ -401,8 +402,8 @@ private
 
   def create_train_of_type(number, type)
     case type
-    when "Cargo" then @trains_list << CargoTrain.new(number, type)
-    when "Passenger" then @trains_list << PassengerTrain.new(number, type)
+    when "Cargo" then @trains_list << CargoTrain.new(number)
+    when "Passenger" then @trains_list << PassengerTrain.new(number)
     end
   end
 

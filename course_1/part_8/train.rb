@@ -84,9 +84,7 @@ class Train
   end
 
   def add_wagon(wagon)
-    if wagon.type != self.type
-      puts "\nWrong type of wagon (#{wagon.type.downcase}) for this train!"
-    elsif !wagon.free
+    if !wagon.free
       puts "\nThis wagon has been added to another train!"
     else
       self.wagons << wagon

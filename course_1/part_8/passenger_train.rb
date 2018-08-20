@@ -5,4 +5,12 @@ class PassengerTrain < Train
     @type = "Passenger"
     super(number, type)
   end
+
+  def add_wagon(wagon)
+    if wagon.type == "Passenger"
+      super(wagon)
+    else
+      puts "This wagon has wrong type (#{wagon.type.downcase})! Type should be passenger!"
+    end
+  end
 end

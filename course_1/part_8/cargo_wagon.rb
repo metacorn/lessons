@@ -1,18 +1,11 @@
 class CargoWagon < Wagon
-  attr_reader :type, :volume
-  attr_accessor :free_volume
-  def initialize(number, volume)
-    super
+  attr_reader :number, :type, :capacity
+  def initialize(number, capacity)
     @type = "Cargo"
-    @volume = volume
-    @free_volume = volume
+    super(number, type, capacity)
   end
 
-  def take_volume(cargo_volume)
-    self.free_volume -= cargo_volume
-  end
-
-  def filled_volume
-    volume - free_volume
+  def take_space(space)
+    super(space)
   end
 end

@@ -64,13 +64,14 @@ class Interface
 
   def show_wagons_menu
     menu_item = 0
-    until (1..5).include?(menu_item)
+    until (1..6).include?(menu_item)
       puts "\nChoose the action (put the number):"
       puts "1. Create a wagon."
       puts "2. Set the manufacturer to the wagon."
       puts "3. Show the manufacturer of the wagon."
       puts "4. Take a seat in passenger wagon."
       puts "5. Take a volume in cargo wagon."
+      puts "6. Back to the start menu."
       menu_item = gets.to_i
     end
     menu_item
@@ -243,9 +244,9 @@ class Interface
     else
       puts "\nWagons of the train:"
       if train.type == "Passenger"
-        train.present_wagons {|wagon| puts "№#{wagon.number}; passenger type; number of filled seats: #{wagon.filled_seats}, number of free seats: #{wagon.free_seats}."}
+        train.present_wagons {|wagon| puts "№#{wagon.number}; passenger type; number of filled seats: #{wagon.filled_space}, number of free seats: #{wagon.free_space}."}
       elsif train.type == "Cargo"
-        train.present_wagons {|wagon| puts "№#{wagon.number}; cargo type; amount of filled volume: #{wagon.filled_volume}, amount of free volume: #{wagon.free_volume}."}
+        train.present_wagons {|wagon| puts "№#{wagon.number}; cargo type; amount of filled volume: #{wagon.filled_space}, amount of free volume: #{wagon.free_space}."}
       end
     end
   end
