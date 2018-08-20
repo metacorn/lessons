@@ -28,8 +28,9 @@ class Train
 
   # В секции public оставлены классы, к которым по ТЗ должен быть доступ из main.rb
 
-  def initialize(number)
-    @number = number.to_s
+  def initialize(number, type)
+    @number = number
+    @type = type
     @wagons = []
     @speed = 0
     validate!
@@ -80,6 +81,28 @@ class Train
 
   def present_wagons
     wagons.each { |wagon| yield(wagon) }
+  end
+
+  def add_wagon(wagon)
+    if wagon.type != self.type
+      puts "\nWrong type of wagon (#{wagon.type.downcase}) for this train!"
+    elsif !wagon.free
+      puts "\nThis wagon has been added to another train!"
+    else
+      self.wagons << wagon
+      wagon.change_state
+      puts "\nThis wagon was added to the train number #{number}."
+    end
+  end
+
+  def remove_wagon(wagon)
+    if !self.wagons.include?(wagon)
+      puts "\nThis wagon is not in this train number #{number}!"
+    else
+      self.wagons.delete(wagon)
+      wagon.change_state
+      puts "\nThis wagon was removed from the train number #{number}."
+    end
   end
 
   protected

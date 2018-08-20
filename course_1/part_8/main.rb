@@ -401,8 +401,8 @@ private
 
   def create_train_of_type(number, type)
     case type
-    when "Cargo" then @trains_list << CargoTrain.new(number)
-    when "Passenger" then @trains_list << PassengerTrain.new(number)
+    when "Cargo" then @trains_list << CargoTrain.new(number, type)
+    when "Passenger" then @trains_list << PassengerTrain.new(number, type)
     end
   end
 
