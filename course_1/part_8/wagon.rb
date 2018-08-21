@@ -4,23 +4,23 @@ class Wagon
   include Manufacturer
   include Validity
 
-  attr_reader :number, :capacity
-  attr_accessor :free, :free_space
+  attr_reader :number, :type, :capacity, :free, :free_space
 
   def initialize(number, type, capacity)
     @number = number
+    @type = type
     @capacity = capacity
     @free_space = capacity
-    self.free = true
+    @free = true
     validate!
   end
 
   def change_state
-    self.free = !free
+    @free = !free
   end
 
   def take_space(space)
-    self.free_space -= space
+    @free_space -= space
   end
 
   def filled_space
