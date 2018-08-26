@@ -38,7 +38,7 @@ class Station
   end
 
   def trains_by_type(type)
-    trains_by_type = @trains.select { |train| train.type == type}
+    trains_by_type = @trains.select { |train| train.type == type }
     puts "\nAmount of #{type} trains at the station: #{trains_by_type.size}."
     trains_by_type
   end
@@ -49,11 +49,12 @@ class Station
 
   private
 
-  STATION_NAME_PATTERN = /^[a-zA-Zа-яА-Я0-9 -]+$/ # буквы, цифры, пробелы, дефисы
+  # маска имени станции: буквы, цифры, пробелы, дефисы
+  STATION_NAME_PATTERN = /^[a-zA-Zа-яА-Я0-9 -]+$/
 
   def validate!
     raise "Station name can't be nil!" if name.nil?
-    raise "Station name should contain letters, numbers, hyphens or spaces!" if name !~ STATION_NAME_PATTERN
+    raise 'Station name should contain letters, numbers, hyphens or spaces!' \
+    if name !~ STATION_NAME_PATTERN
   end
-
 end

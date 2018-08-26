@@ -1,11 +1,16 @@
 class Interface
-
   def show_menu(menu)
     puts "\nChoose the action (put the number):"
-    menu.each_with_index { |item, index| puts "#{index + 1}. #{item[0].to_s.capitalize}."}
-    print ">> "
+    menu.each_with_index do |item, index|
+      puts "#{index + 1}. #{item[0].to_s.capitalize}."
+    end
+    print '>> '
     item_index = gets.to_i
-    until (1..menu.size).include?(item_index)
+    check_item_index(item_index, menu)
+  end
+
+  def check_item_index(item_index, menu)
+    until (1..menu.size).cover?(item_index)
       puts "\nChoose the correct number (1..#{menu.size}) of action:"
       item_index = gets.to_i
     end
@@ -23,7 +28,8 @@ class Interface
   end
 
   def ask_station_name_if_not_exist
-    puts "\nStation with such name does not exist, input the name of an existing one:"
+    puts "\nStation with such name does not exist, " \
+    'input the name of an existing one:'
     gets.chomp
   end
 
@@ -45,7 +51,10 @@ class Interface
       puts "\nThere are no trains at the station!"
     else
       puts "\nTrains at the station:"
-      station.present_trains {|train| puts "№#{train.number}; #{train.type.downcase} type; number of wagons: #{train.wagons.size}."}
+      station.present_trains do |train|
+        puts "№#{train.number}; #{train.type.downcase} type; " \
+        "number of wagons: #{train.wagons.size}."
+      end
     end
   end
 
@@ -60,7 +69,8 @@ class Interface
   end
 
   def ask_route_number_if_not_exist
-    puts "\nRoute with such number does not exist, input the number of an existing one:"
+    puts "\nRoute with such number does not exist, " \
+    'input the number of an existing one:'
     gets.chomp
   end
 
@@ -80,7 +90,7 @@ class Interface
 
   def show_stations(route)
     puts "\nStations in the route #{route.number}:"
-    route.stations.each {|station| puts station.name}
+    route.stations.each { |station| puts station.name }
   end
 
   def show_route_instances
@@ -99,7 +109,8 @@ class Interface
   end
 
   def ask_train_number_if_not_exist
-    puts "\nTrain with such number does not exist, input the number of an existing one:"
+    puts "\nTrain with such number does not exist, " \
+    'input the number of an existing one:'
     gets.chomp
   end
 
@@ -109,15 +120,12 @@ class Interface
 
   def ask_type
     type_code = 0
-    until ["P", "C"].include?(type_code)
+    until %w[P C].include?(type_code)
       puts "\nInput the type (\"P\" for passenger, \"C\" for cargo):"
       type_code = gets.chomp.capitalize
     end
-    if type_code == "P"
-      return "Passenger"
-    else
-      "Cargo"
-    end
+    return 'Passenger' if type_code == 'P'
+    return 'Cargo' if type_code == 'C'
   end
 
   def ask_wagon_number
@@ -131,7 +139,8 @@ class Interface
   end
 
   def ask_wagon_number_if_not_exist
-    puts "\nWagon with such number does not exist, input the number of an existing one:"
+    puts "\nWagon with such number does not exist, " \
+    'input the number of an existing one:'
     gets.chomp
   end
 
@@ -159,11 +168,13 @@ class Interface
   end
 
   def set_manufacturer_msg(instance, manufacturer_name)
-    puts "\nManufacturer of this #{instance.class.superclass.to_s.downcase} was defined as #{manufacturer_name}!"
+    puts "\nManufacturer of this #{instance.class.superclass.to_s.downcase} " \
+    "was defined as #{manufacturer_name}!"
   end
 
   def show_manufacturer(instance, manufacturer_name)
-    puts "\nManufacturer of this #{instance.class.superclass.to_s.downcase} is #{manufacturer_name}."
+    puts "\nManufacturer of this #{instance.class.superclass.to_s.downcase} " \
+    "is #{manufacturer_name}."
   end
 
   def show_train_instances
@@ -178,11 +189,24 @@ class Interface
       puts "\nThere are no wagons at the train!"
     else
       puts "\nWagons of the train:"
-      if train.type == "Passenger"
-        train.present_wagons {|wagon| puts "№#{wagon.number}; passenger type; number of filled seats: #{wagon.filled_space}, number of free seats: #{wagon.free_space}."}
-      elsif train.type == "Cargo"
-        train.present_wagons {|wagon| puts "№#{wagon.number}; cargo type; amount of filled volume: #{wagon.filled_space}, amount of free volume: #{wagon.free_space}."}
-      end
+      show_passenger_wagons(train) if train.type == 'Passenger'
+      show_cargo_wagons(train) if train.type == 'Cargo'
+    end
+  end
+
+  def show_passenger_wagons(train)
+    train.present_wagons do |wagon|
+      puts "№#{wagon.number}; passenger type; " \
+      "number of filled seats: #{wagon.filled_space}, " \
+      "number of free seats: #{wagon.free_space}."
+    end
+  end
+
+  def show_cargo_wagons(train)
+    train.present_wagons do |wagon|
+      puts "№#{wagon.number}; cargo type; " \
+      "amount of filled volume: #{wagon.filled_space}, " \
+      "amount of free volume: #{wagon.free_space}."
     end
   end
 
@@ -194,12 +218,20 @@ class Interface
     puts "\nThis is cargo wagon. Choose passenger one."
   end
 
+  def seat_taken_msg
+    puts "\nSeat is taken!"
+  end
+
   def passenger_wagon_filled_msg
     puts "\nThis wagon has no free seats!"
   end
 
   def wrong_wagon_type_for_cargo_msg
     puts "\nThis is passenger wagon. Choose cargo one."
+  end
+
+  def volume_taken
+    puts "\nSpace is taken!"
   end
 
   def cargo_wagon_filled_msg

@@ -1,6 +1,6 @@
 class PassengerWagon < Wagon
   def initialize(number, capacity)
-    super(number, "Passenger", capacity)
+    super(number, 'Passenger', capacity)
   end
 
   def take_space

@@ -15,10 +15,11 @@ class Train
     end
 
     protected
+
     attr_writer :all
 
     def add_train(train)
-      self.all[train.number] = train
+      all[train.number] = train
     end
   end
 
@@ -26,7 +27,8 @@ class Train
 
   attr_reader :number, :speed, :route, :wagons, :current_station
 
-  # В секции public оставлены классы, к которым по ТЗ должен быть доступ из main.rb
+  # В секции public оставлены классы,
+  # к которым по ТЗ должен быть доступ из main.rb
 
   def initialize(number, type)
     @number = number
@@ -87,17 +89,17 @@ class Train
     if !wagon.free
       puts "\nThis wagon has been added to another train!"
     else
-      self.wagons << wagon
+      wagons << wagon
       wagon.change_state
       puts "\nThis wagon was added to the train number #{number}."
     end
   end
 
   def remove_wagon(wagon)
-    if !self.wagons.include?(wagon)
+    if !wagons.include?(wagon)
       puts "\nThis wagon is not in this train number #{number}!"
     else
-      self.wagons.delete(wagon)
+      wagons.delete(wagon)
       wagon.change_state
       puts "\nThis wagon was removed from the train number #{number}."
     end
@@ -105,10 +107,12 @@ class Train
 
   protected
 
-  TRAIN_NUMBER_PATTERN = /^[a-zA-Zа-яА-Я0-9]{3}-*[a-zA-Zа-яА-Я0-9]{2}$/ # согласно ТЗ
+  # маска номера поезда согласно ТЗ
+  TRAIN_NUMBER_PATTERN = /^[a-zA-Zа-яА-Я0-9]{3}-*[a-zA-Zа-яА-Я0-9]{2}$/
 
   def validate!
     raise "Train number can't be nil!" if number.nil?
-    raise "Train number should conform to the established mask!" if number !~ TRAIN_NUMBER_PATTERN
+    raise 'Train number should conform to the established mask!' \
+    if number !~ TRAIN_NUMBER_PATTERN
   end
 end

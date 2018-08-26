@@ -20,7 +20,11 @@ class Wagon
   end
 
   def take_space(space)
-    @free_space -= space
+    if free_space >= space
+      @free_space -= space
+    else
+      false
+    end
   end
 
   def filled_space
@@ -33,6 +37,7 @@ class Wagon
 
   def validate!
     raise "Wagon number can't be nil!" if number.nil?
-    raise "Wagon number should conform to the established mask!" if number !~ WAGON_NUMBER_PATTERN
+    raise 'Wagon number should conform to the established mask!' \
+    if number !~ WAGON_NUMBER_PATTERN
   end
 end
