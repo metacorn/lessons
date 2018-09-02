@@ -10,61 +10,44 @@ module Validation
     def validate(attr_name, validation_type, *additional)
       @validations ||= []
       var_name = "@#{attr_name}".to_sym
-      method_name = "#{validation_type}_validation"
+      attribute = instance_variable_get(var_name)
+      validation_method_name = "#{validation_type}_validation"
       compare_sample = additional[0]
-      current_validation = [method_name, var_name, compare_sample]
+      current_validation = [validation_method_name, attribute, compare_sample]
       @validations << current_validation
     end
   end
 
   module InstanceMethods
-    def validate!(*additional_msg)
-      if [Train, Wagon].include? self.class.superclass
-        validations = self.class.superclass.validations
-      else
-        validations = self.class.validations
-      end
-      validation_msg = ""
+    def validate!
+      validations = self.class.validations
       validations.each do |validation|
-        method_name, var_name, compare_sample = validation
-        answer = send(method_name, var_name, compare_sample)
-        validation_msg += answer.concat(" ")
+        validation_method_name, attribute, compare_sample = validation
+        send(validation_method_name, attribute, compare_sample)
       end
-      validation_msg += additional_msg[0] if !additional_msg.empty?
-      validation_msg.lstrip!.rstrip!
-      raise validation_msg if !validation_msg.empty?
     end
 
-    def presence_validation(var_name, compare_sample)
-      attribute = instance_variable_get(var_name)
+    def presence_validation(attribute, compare_sample)
       if attribute.nil?
-        return "Attribute #{var_name} could not be Nil!"
+        raise "Attribute could not be Nil!"
       elsif attribute == ""
-        return "Attribute #{var_name} could not be empty String!"
-      else
-        return ""
+        raise "Attribute could not be empty String!"
       end
     end
 
-    def format_validation(var_name, compare_sample)
-      attribute = instance_variable_get(var_name)
+    def format_validation(attribute, compare_sample)
       pattern = compare_sample
       if attribute !~ pattern
-        return "Attribute #{var_name} should conform to the pattern: " \
+        raise "Attribute should conform to the pattern: " \
         "#{compare_sample.inspect}!"
-      else
-        return ""
       end
     end
 
-    def type_validation(var_name, compare_sample)
-      attribute = instance_variable_get(var_name)
+    def type_validation(attribute, compare_sample)
       attr_class = compare_sample
       if attribute.class != attr_class
-        return "Attribute #{var_name} has wrong class " \
+        raise "Attribute has wrong class " \
         "(#{attribute.class}), should be #{attr_class}!"
-      else
-        return ""
       end
     end
 
