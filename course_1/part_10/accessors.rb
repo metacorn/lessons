@@ -1,7 +1,6 @@
 module Accessors
   def self.included(base)
     base.extend ClassMethods
-    # base.send :include, InstanceMethods
   end
 
   module ClassMethods
@@ -13,10 +12,12 @@ module Accessors
           instance_variable_get(var_history_name)
         end
         define_method("#{name}=") do |value|
-          instance_variable_set(var_name, value)
           var_history = instance_variable_get(var_history_name) || []
-          var_history << value
+          if instance_variable_get(var_name)
+            var_history << instance_variable_get(var_name)
+          end
           instance_variable_set(var_history_name, var_history)
+          instance_variable_set(var_name, value)
         end
         define_method(name) { instance_variable_get(var_name) }
       end
@@ -31,11 +32,4 @@ module Accessors
       end
     end
   end
-end
-
-class Test
-  include Accessors
-
-  attr_accessor_with_history :a, :b, :c
-  strong_attr_accessor :d, Array
 end
