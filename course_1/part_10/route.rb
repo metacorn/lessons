@@ -5,7 +5,7 @@ class Route
   include InstanceCounter
   include Validation
 
-  ROUTE_NUMBER_PATTERN = /^[a-zA-Zа-яА-Я0-9-]+$/
+  ROUTE_NUMBER_PATTERN = /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я0-9 -]*[a-zA-Zа-яА-Я0-9]+$/
 
   attr_reader :stations, :number
   validate :number, :presence

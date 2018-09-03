@@ -9,7 +9,7 @@ class Station
     attr_reader :all
   end
 
-  STATION_NAME_PATTERN = /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я0-9 -]+[a-zA-Zа-яА-Я0-9]+$/
+  STATION_NAME_PATTERN = /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я0-9 -]*[a-zA-Zа-яА-Я0-9]+$/
 
   attr_reader :trains, :name
   validate :name, :presence

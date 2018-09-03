@@ -5,7 +5,7 @@ class Wagon
   include Manufacturer
   include Validation
 
-  WAGON_NUMBER_PATTERN = /^[a-zA-Zа-яА-Я0-9][a-zA-Zа-яА-Я0-9-][a-zA-Zа-яА-Я0-9]$/
+  WAGON_NUMBER_PATTERN = /^[a-zA-Zа-яА-Я0-9][a-zA-Zа-яА-Я0-9 -]*[a-zA-Zа-яА-Я0-9]+$/
 
   attr_reader :number, :type, :capacity, :free, :free_space
   validate :number, :presence
